@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css'
+import {BrowserRouter} from "react-router-dom";
 import Header from "./components/header/Header";
 
 
@@ -8,9 +9,9 @@ class App extends Component {
 
   render() {
     return (
-        <div>
+        <BrowserRouter>
           <Header/>
-        </div>
+        </BrowserRouter>
     );
   }
 }

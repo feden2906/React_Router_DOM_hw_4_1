@@ -13,6 +13,7 @@ import AllComments from "../AllComments/AllComments";
 import {BrowserRouter as Router, NavLink, Route, Switch} from "react-router-dom";
 
 
+
 class Header extends Component {
   UserServices = new UserServices()
   PostServices = new PostServices()
@@ -32,7 +33,7 @@ class Header extends Component {
   render() {
     const {users, posts, photos, comments} = this.state
     return (
-        <Router>
+        <div>
           <div>
             <div>
               <NavLink to={'/users'}>Користувачі</NavLink>
@@ -50,12 +51,12 @@ class Header extends Component {
           <hr/>
 
           <Switch>
-            <Route path={'/users'} render={() => <AllUsers users={users}/>}/>
-            <Route path={'/posts'} render={() => <AllPosts posts={posts}/>}/>
+            <Route path={'/users'} component={AllUsers}/>
+            <Route path={'/posts'} component={AllPosts}/>
             <Route path={'/photos'} render={() => <AllPhotos photos={photos}/>}/>
             <Route path={'/comments'} render={() => <AllComments comments={comments}/>}/>
           </Switch>
-        </Router>
+        </div>
     );
   }
 }
