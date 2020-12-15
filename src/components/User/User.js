@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './User.css'
+
 import {Link, withRouter} from "react-router-dom";
 
 class User extends Component {

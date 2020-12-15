@@ -1,45 +1,55 @@
 import React, {Component} from 'react';
-import {UserServices} from "../services/UserServices";
+import Loading from "../services/Loading";
+import {withRouter} from "react-router-dom";
+import doFetch from "../services/doFetch";
 
 class FullUser extends Component {
   state = {user: ''}
 
-  UserServices = new UserServices()
-
-  async componentDidMount() {
-    const {id} = this.props
-    const user = await this.UserServices.getUser(id)
-    this.setState({user})
+  componentDidMount() {
+    const {id, match:{url, params}} = this.props
+    console.log(params)
+    doFetch(url + '/'+ params.id)
+        .then(value => console.log(value))
+        .then(value => this.setState({user: value}))
+        .then(value => console.log(value) )
   }
 
   render() {
-    let {user} = this.state
-  //   user:{name, username, email, phone, website,
-  //       address: {street, suite, city, zipcode, geo: {lat, lng}},
-  //     company: {name: companyName, catchPhrase, bs}}
-  // } = this.state
-    return (
+    const {user} = this.state
+    if (user) {
 
-        <div>
-          {user && <div>
-                      <h4>{user.name}</h4>
-                      <h4>{user.username}</h4>
-                      <h4>{user.email}</h4>
-                      <h4>{user.address.street}</h4>
-                      <h4>{user.address.suite}</h4>
-                      <h4>{user.address.city}</h4>
-                      <h4>{user.address.zipcode}</h4>
-                      <h4>{user.address.geo.lat}</h4>
-                      <h4>{user.address.geo.lng}</h4>
-                      <h4>{user.phone}</h4>
-                      <h4>{user.company.website}</h4>
-                      <h4>{user.company.companyName}</h4>
-                      <h4>{user.company.catchPhrase}</h4>
-                      <h4>{user.company.bs}</h4>
-          </div>}
-        </div>
-    );
+      const {user: {name, username, email}} = this.state
+          // phone, website,
+          // address: {street, suite, city, zipcode, geo: {lat, lng}},
+          // company: {name: companyName, catchPhrase, bs}
+
+
+      return (
+          <div>
+            <h4>{name}</h4>
+            <h4>{username}</h4>
+            <h4>{email}</h4>
+            {/*<h4>{street}</h4>*/}
+            {/*<h4>{suite}</h4>*/}
+            {/*<h4>{city}</h4>*/}
+            {/*<h4>{zipcode}</h4>*/}
+            {/*<h4>{lat}</h4>*/}
+            {/*<h4>{lng}</h4>*/}
+            {/*<h4>{phone}</h4>*/}
+            {/*<h4>{website}</h4>*/}
+            {/*<h4>{companyName}</h4>*/}
+            {/*<h4>{catchPhrase}</h4>*/}
+            {/*<h4>{bs}</h4>*/}
+          </div>
+      )
+    } else {
+      return (
+          Loading()
+      );
+    }
+
   }
 }
 
-export default FullUser;
+export default withRouter(FullUser);

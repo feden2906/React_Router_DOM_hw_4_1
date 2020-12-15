@@ -1,38 +1,24 @@
 import React, {Component} from 'react';
-import './AllPosts.css'
 import Post from "../post/Post";
-import {
-  BrowserRouter as Router, Switch, Route, Link, withRouter
-} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import doFetch from "../services/doFetch";
+import Loading from "../services/Loading";
 
 class AllPosts extends Component {
   state = {posts: false}
   componentDidMount() {
-    const {match:{url}} = this.props
+    const {match: {url}} = this.props
 
-    setTimeout(()=>{
-        doFetch(url).then(posts => {
-            this.setState({posts})
-        })
-    },3000)
-  }
-  myFunc=()=>{
-      return (<h1>Loading....</h1>)
+    setTimeout(() => {
+      doFetch(url).then(posts => this.setState({posts}))
+    }, 500)
   }
 
   render() {
    const {posts} = this.state;
-
-    if(posts){
         return (
-            <div>
-                { posts.map(value => <Post post={value} key={value.id}/>)}
-            </div>
+            posts ? <div>{posts.map(value => <Post post={value} key={value.id}/>)}</div> : Loading()
         );
-    }else{
-    return  this.myFunc()
-    }
   }
 }
 
